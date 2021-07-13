@@ -107,12 +107,18 @@ public final class LuaThread extends LuaValue implements Serializable {
 
     /** Resets the thread to its initial state. */
     public void reset() {
+        resetCallstack();
+        debugState = null;
+    }
+
+    private void resetCallstack() {
         StackFrame.releaseCallstack(callstack);
 
         status = LuaThreadStatus.INITIAL;
         callstackMin = 0;
         callstack = null;
-        debugState = null;
+
+        DebugLib.debugResetCallstack(this);
     }
 
     public int getThreadId() {
@@ -462,7 +468,8 @@ public final class LuaThread extends LuaValue implements Serializable {
 
     /** Jumps to the given closure, ending the current call. */
     public void jump(LuaClosure closure, LuaValue args) {
-        reset();
+        resetCallstack();
+
         pushPending(closure, args);
     }
 

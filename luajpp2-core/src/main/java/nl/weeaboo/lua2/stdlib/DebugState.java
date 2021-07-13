@@ -117,6 +117,12 @@ final class DebugState implements Externalizable {
         di.clear();
     }
 
+    public void popAll() {
+        while (debugCalls > 0) {
+            popInfo();
+        }
+    }
+
     void callHookFunc(LuaString type, LuaValue arg) {
         if (inhook || hookfunc == null) {
             return;

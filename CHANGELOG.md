@@ -1,4 +1,7 @@
 
+# v3.4.2
+- fix: `LuaThread.reset()` 
+
 # v3.4.1
 - fix: Persisting a `LuaTable` with userdata keys could become corrupted after loading due to changing hash codes.
 

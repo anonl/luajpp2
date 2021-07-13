@@ -656,4 +656,12 @@ public final class DebugLib extends LuaModule {
         }
     }
 
+    /**
+     * Resets the debug information related to the call stack of the given thread.
+     */
+    public static void debugResetCallstack(LuaThread thread) {
+        DebugState debugState = getDebugState(thread);
+        debugState.popAll();
+    }
+
 }
