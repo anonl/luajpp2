@@ -1,4 +1,7 @@
 
+# v3.4.3
+- fix: Throwing `LuaException` from outside a `LuaThread` is now possible.
+
 # v3.4.2
 - fix: `LuaThread.reset()` 
 

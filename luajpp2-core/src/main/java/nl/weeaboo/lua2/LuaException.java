@@ -7,7 +7,6 @@ import nl.weeaboo.lua2.stdlib.DebugTrace;
 import nl.weeaboo.lua2.vm.LuaNil;
 import nl.weeaboo.lua2.vm.LuaStackTraceElement;
 import nl.weeaboo.lua2.vm.LuaString;
-import nl.weeaboo.lua2.vm.LuaThread;
 import nl.weeaboo.lua2.vm.LuaValue;
 
 /**
@@ -41,7 +40,12 @@ public final class LuaException extends RuntimeException {
     }
 
     private void initStackTrace(Throwable cause, int level) {
-        List<LuaStackTraceElement> stack = DebugTrace.stackTrace(LuaThread.getRunning(), level, MAX_LEVELS);
+        LuaRunState lrs = LuaRunState.getCurrent();
+        if (lrs == null) {
+            return; // No Lua context is current
+        }
+
+        List<LuaStackTraceElement> stack = DebugTrace.stackTrace(lrs.getRunningThread(), level, MAX_LEVELS);
         if (cause != null) {
             setStackTrace(prefixLuaStackTrace(cause, stack));
         } else {
